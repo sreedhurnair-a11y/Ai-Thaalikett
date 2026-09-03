@@ -11,6 +11,9 @@
 
 
 ### Project Description
+TO RUN THE PROJECT PLEASE RUN THE Index.html
+I have also attached the video screenshots in the drive links please check it.
+
 [AI il Thaalikett is a proudly useless web app built for TinkerHub’s Useless Projects hackathon that simulates a South Indian wedding right inside your browser using HTML5 Canvas and vanilla JavaScript. You upload photos of the couple, pick a wedding vibe, and hit a button to watch the groom's arm magically stretch across the screen to tie the Thaali with full audio and confetti effects.]
 
 ### The Problem (that doesn't exist)
@@ -35,7 +38,7 @@ For Software:
 # Installation
 [git clone https://github.com/sreedhurnair-a11y/Ai-Thaalikett.git
 cd Ai-Thaalikett
-```[cite: 1]
+]
 
 
 
