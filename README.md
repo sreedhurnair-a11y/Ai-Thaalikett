@@ -37,14 +37,12 @@ For Software:
 cd Ai-Thaalikett
 ```[cite: 1]
 
-# Run
-[Open `index.html` in any web browser or use VS Code's Live Server extension[cite: 1].]
 
-### Project Documentation
-For Software:
+
 
 # Screenshots (Add at least 3)
-"D:\AIa Kalyanam\Screenshot 2026-09-03 162043.png","D:\AI Kalyanam\Screenshot 2026-09-03 162132.png","D:\AI Kalyanam\Screenshot 2026-09-03 162204.png","D:\AI Kalyanam\Screenshot 2026-09-03 162221.png","D:\AI Kalyanam\Screenshot 2026-09-03 162308.png"
+[https://drive.google.com/drive/folders/1C9oMr-haTlKu5dpT624qcukyowm2iAZb?usp=drive_link]
+
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
 *"D:\AI Kalyanam\workflow.png"*
@@ -52,8 +50,7 @@ For Software:
 
 ### Project Demo
 # Video
-[https://drive.google.com/file/d/1LSMjILTiGKpNt0wooe_u7Qfje9D0cswL/view?usp=drive_link]
-
+[https://drive.google.com/drive/folders/1510DpAICZiAgmCpLJ00paZG6loVnXrKT?usp=drive_link]
 
 ## Team Contributions
 - [Sreedhu R Nair]: [Built core JavaScript state management, hacked together the canvas rendering loop, and figured out the arm-stretching and confetti math.]
