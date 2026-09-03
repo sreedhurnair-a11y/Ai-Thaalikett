@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI il Thaalikett 😂</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff4757;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #ffa502;
+      margin-top: 5px;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      align-items: center;
+    }
+
+    .control-panel {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      align-items: center;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    input[type="file"], select {
+      background: #2f3542;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .action-btn {
+      background: #ff4757;
+      color: white;
+      font-size: 1.1rem;
+      padding: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.1s;
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .action-btn:hover {
+      background: #ff6b81;
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .stage-container {
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+    }
+
+    canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Soundboard CSS */
+    .soundboard-panel {
+      background: #2f3640;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      border: 2px solid #353b48;
+    }
+
+    .audio-row-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .audio-row {
+      background: #1e272e;
+      padding: 12px 15px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .audio-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .audio-title {
+      font-weight: bold;
+      color: #ffa502;
+      font-size: 0.95rem;
+    }
+
+    .audio-category {
+      font-size: 0.75rem;
+      color: #718093;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .audio-controls-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .playback-btn {
+      background: #0984e3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      min-width: 75px;
+    }
+
+    .playback-btn:hover {
+      background: #74b9ff;
+    }
+
+    .playback-btn:active {
+      transform: scale(0.95);
+    }
+
+    .playback-btn.playing {
+      background: #e74c3c;
+    }
+
+    .volume-slider {
+      width: 100px;
+      accent-color: #ff4757;
+      cursor: pointer;
+    }
+
+    .section-title {
+      color: #ffdd59;
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+      border-bottom: 1px solid #485460;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Useless Wedding Simulator</h1>
+    <p class="subtitle">AI il thaalikett 😂</p>
+  </header>
+
+  <div class="main-container">
+    <div class="control-panel">
+      <div class="input-group">
+        <label for="groomFaceInput">Groom Face Photo:</label>
+        <input type="file" id="groomFaceInput" accept="image/*" />
+      </div>
+
+      <div class="input-group">
+        <label for="brideFaceInput">Bride Face Photo:</label>
+        <input type="file" id="brideFaceInput" accept="image/*" />
+      </div>
+
+      <div class="input-group">
+        <label for="religionSelect">Wedding Tradition:</label>
+        <select id="religionSelect" onchange="handleTraditionChange()">
+          <option value="hindu">Hindu (Kasavu Mandapam)</option>
+          <option value="christian">Christian (Suit & White Gown)</option>
+          <option value="muslim">Muslim (Emerald Green Nikah Theme)</option>
+        </select>
+      </div>
+
+      <button class="action-btn" id="thalikettBtn">
+        Happy Married Life! 🥳💍
+      </button>
+    </div>
+
+    <div class="stage-container">
+      <canvas id="weddingCanvas" width="800" height="500"></canvas>
+    </div>
+
+    <div class="soundboard-panel">
+      <h3 style="color: #ffdd59; margin-bottom: 15px; text-align: center;">Kalyanam Audio Soundboard & Controller 🎵</h3>
+      
+      <div class="section-title">Tradition-Specific BGM</div>
+      <div class="audio-row-container">
+        <div class="audio-row" id="row-hindu" data-tradition="hindu">
+          <div class="audio-info">
+            <span class="audio-title">🎺 Nadaswaram BGM</span>
+            <span class="audio-category">Hindu Wedding Track</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-nadaswaram" onclick="togglePlay('nadaswaram')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('nadaswaram', this.value)">
+          </div>
+        </div>
+
+        <div class="audio-row" id="row-christian" data-tradition="christian" style="display: none;">
+          <div class="audio-info">
+            <span class="audio-title">⛪ Church Organ BGM</span>
+            <span class="audio-category">Christian Wedding Track</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-church" onclick="togglePlay('church')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('church', this.value)">
+          </div>
+        </div>
+
+        <div class="audio-row" id="row-muslim" data-tradition="muslim" style="display: none;">
+          <div class="audio-info">
+            <span class="audio-title">🕌 Masjid / Du'a Audio</span>
+            <span class="audio-category">Muslim Wedding Track</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-masjid" onclick="togglePlay('masjid')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('masjid', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Common Wedding Audio Effects</div>
+      <div class="audio-row-container">
+        <div class="audio-row">
+          <div class="audio-info">
+            <span class="audio-title">🎉 Party Popper</span>
+            <span class="audio-category">Common Effect</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-popper" onclick="togglePlay('popper')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('popper', this.value)">
+          </div>
+        </div>
+
+        <div class="audio-row">
+          <div class="audio-info">
+            <span class="audio-title">👏 Crowd</span>
+            <span class="audio-category">Common Effect</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-claps" onclick="togglePlay('claps')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('claps', this.value)">
+          </div>
+        </div>
+
+        <div class="audio-row">
+          <div class="audio-info">
+            <span class="audio-title">📢 Gossip</span>
+            <span class="audio-category">Common Effect</span>
+          </div>
+          <div class="audio-controls-group">
+            <button class="playback-btn" id="btn-ulakam" onclick="togglePlay('ulakam')">Play</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume('ulakam', this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('weddingCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const groomFaceInput = document.getElementById('groomFaceInput');
+    const brideFaceInput = document.getElementById('brideFaceInput');
+    const religionSelect = document.getElementById('religionSelect');
+    const thalikettBtn = document.getElementById('thalikettBtn');
+
+    let groomFaceImg = null;
+    let brideFaceImg = null;
+    let currentBackground = new Image();
+    let bgLoaded = false;
+
+    const groomPos = { x: 230, y: 180, w: 140, h: 260 };
+    const bridePos = { x: 430, y: 180, w: 140, h: 260 };
+
+    let isAnimating = false;
+    let animProgress = 0; 
+    let popperParticles = [];
+    let screenShakeTimer = 0;
+
+    const audioLibrary = {
+      nadaswaram: new Audio('nadaswaram.mp3'),
+      church: new Audio('church_organ.mp3'),
+      masjid: new Audio('masjid_audio.mp3'),
+      popper: new Audio('popper.mp3'),
+      claps: new Audio('claps.mp3'),
+      ulakam: new Audio('kurava.mp3')
+    };
+
+    Object.keys(audioLibrary).forEach(key => {
+      audioLibrary[key].loop = true;
+    });
+
+    function togglePlay(key) {
+      const audio = audioLibrary[key];
+      const btn = document.getElementById(`btn-${key}`);
+      if (!audio || !btn) return;
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          btn.textContent = 'Pause';
+          btn.classList.add('playing');
+        }).catch(err => {
+          console.log("Audio playback error or file missing:", err);
+          alert(`Could not play "${key}". Make sure "${key}.mp3" is in your folder!`);
+        });
+      } else {
+        audio.pause();
+        btn.textContent = 'Play';
+        btn.classList.remove('playing');
+      }
+    }
+
+    function updateVolume(key, val) {
+      if (audioLibrary[key]) {
+        audioLibrary[key].volume = parseFloat(val);
+      }
+    }
+
+    function handleTraditionChange() {
+      const selectedTradition = religionSelect.value;
+
+      document.querySelectorAll('[data-tradition]').forEach(row => {
+        if (row.getAttribute('data-tradition') === selectedTradition) {
+          row.style.display = 'flex';
+        } else {
+          row.style.display = 'none';
+          const key = row.id.replace('row-', '');
+          if (audioLibrary[key] && !audioLibrary[key].paused) {
+            audioLibrary[key].pause();
+            audioLibrary[key].currentTime = 0;
+            const btn = document.getElementById(`btn-${key}`);
+            if (btn) {
+              btn.textContent = 'Play';
+              btn.classList.remove('playing');
+            }
+          }
+        }
+      });
+
+      loadBackgroundAndRender();
+    }
+
+    groomFaceInput.addEventListener('change', (e) => handleImageUpload(e, 'groom'));
+    brideFaceInput.addEventListener('change', (e) => handleImageUpload(e, 'bride'));
+    thalikettBtn.addEventListener('click', () => {
+      const popperAudio = audioLibrary['popper'];
+      if (popperAudio) {
+        popperAudio.currentTime = 0;
+        popperAudio.play().catch(e => {});
+        const pBtn = document.getElementById('btn-popper');
+        if (pBtn) {
+          pBtn.textContent = 'Pause';
+          pBtn.classList.add('playing');
+        }
+      }
+      startThalikettAnimation();
+    });
+
+    function loadBackgroundAndRender() {
+      bgLoaded = false;
+      currentBackground = new Image();
+      currentBackground.onload = () => {
+        bgLoaded = true;
+        renderStage();
+      };
+      currentBackground.onerror = () => {
+        bgLoaded = false;
+        renderStage();
+      };
+      currentBackground.src = `${religionSelect.value}_stage.png`;
+    }
+
+    loadBackgroundAndRender();
+
+    function handleImageUpload(event, target) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          if (target === 'groom') groomFaceImg = img;
+          if (target === 'bride') brideFaceImg = img;
+          renderStage();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderStage() {
+      ctx.save();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (screenShakeTimer > 0) {
+        const shakeX = (Math.random() - 0.5) * 14;
+        const shakeY = (Math.random() - 0.5) * 14;
+        ctx.translate(shakeX, shakeY);
+        screenShakeTimer--;
+      }
+
+      if (bgLoaded) {
+        ctx.drawImage(currentBackground, 0, 0, canvas.width, canvas.height);
+      } else {
+        // Fallback backdrop if image files are missing
+        const tradition = religionSelect.value;
+        if (tradition === 'hindu') ctx.fillStyle = '#4a2810';
+        else if (tradition === 'christian') ctx.fillStyle = '#2c3e50';
+        else ctx.fillStyle = '#0652dd';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#d4af37';
+        ctx.fillRect(150, 80, 500, 320);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(170, 100, 460, 300);
+      }
+
+      const tradition = religionSelect.value;
+      drawDetailedGroom(tradition, groomFaceImg, groomPos);
+      drawDetailedBride(tradition, brideFaceImg, bridePos);
+
+      if (isAnimating) {
+        updateAndDrawAnimation();
+      }
+
+      ctx.restore();
+    }
+
+    function drawDetailedGroom(tradition, faceImg, pos) {
+      ctx.save();
+      const cx = pos.x + pos.w / 2;
+
+      if (tradition === 'hindu') {
+        ctx.fillStyle = '#fdfbf7';
+        ctx.beginPath();
+        ctx.roundRect(pos.x, pos.y + 75, pos.w, pos.h - 75, [15, 15, 0, 0]);
+        ctx.fill();
+        ctx.fillStyle = '#d4af37';
+        ctx.fillRect(pos.x, pos.y + pos.h - 35, pos.w, 35);
+        ctx.fillStyle = '#fffdf0';
+        ctx.beginPath();
+        ctx.moveTo(cx - 50, pos.y + 75);
+        ctx.lineTo(cx + 60, pos.y + 110);
+        ctx.lineTo(cx + 40, pos.y + 150);
+        ctx.lineTo(cx - 40, pos.y + 100);
+        ctx.fill();
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else if (tradition === 'christian') {
+        ctx.fillStyle = '#1e272e';
+        ctx.beginPath();
+        ctx.roundRect(pos.x, pos.y + 75, pos.w, pos.h - 75, [15, 15, 0, 0]);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(cx - 20, pos.y + 75);
+        ctx.lineTo(cx + 20, pos.y + 75);
+        ctx.lineTo(cx, pos.y + 140);
+        ctx.fill();
+        ctx.fillStyle = '#2f3640';
+        ctx.beginPath();
+        ctx.moveTo(cx - 20, pos.y + 75);
+        ctx.lineTo(cx - 45, pos.y + 160);
+        ctx.lineTo(cx - 20, pos.y + 110);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cx + 20, pos.y + 75);
+        ctx.lineTo(cx + 45, pos.y + 160);
+        ctx.lineTo(cx + 20, pos.y + 110);
+        ctx.fill();
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.ellipse(cx, pos.y + 80, 12, 7, 0, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (tradition === 'muslim') {
+        ctx.fillStyle = '#006266';
+        ctx.beginPath();
+        ctx.roundRect(pos.x, pos.y + 75, pos.w, pos.h - 75, [15, 15, 0, 0]);
+        ctx.fill();
+        ctx.fillStyle = '#f1c40f';
+        ctx.fillRect(cx - 12, pos.y + 75, 24, pos.h - 75);
+        ctx.fillStyle = '#ffffff';
+        for(let by = pos.y + 90; by < pos.y + pos.h - 20; by += 25) {
+          ctx.beginPath();
+          ctx.arc(cx, by, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      renderFace(faceImg, pos, "Groom");
+      ctx.restore();
+    }
+
+    function drawDetailedBride(tradition, faceImg, pos) {
+      ctx.save();
+      const cx = pos.x + pos.w / 2;
+
+      if (tradition === 'hindu') {
+        ctx.fillStyle = '#fefefe';
+        ctx.beginPath();
+        ctx.roundRect(pos.x - 5, pos.y + 75, pos.w + 10, pos.h - 75, [20, 20, 0, 0]);
+        ctx.fill();
+        ctx.fillStyle = '#d4af37';
+        ctx.fillRect(pos.x + pos.w - 30, pos.y + 75, 30, pos.h - 75);
+        ctx.fillRect(pos.x - 5, pos.y + pos.h - 30, pos.w + 10, 30);
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(cx, pos.y + 75, 18, 0, Math.PI);
+        ctx.stroke();
+      } else if (tradition === 'christian') {
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.roundRect(pos.x - 12, pos.y + 75, pos.w + 24, pos.h - 75, [30, 30, 0, 0]);
+        ctx.fill();
+        ctx.strokeStyle = '#dcdde1';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx - 25, pos.y + 75);
+        ctx.lineTo(cx, pos.y + 120);
+        ctx.lineTo(cx + 25, pos.y + 75);
+        ctx.stroke();
+        ctx.fillStyle = '#ffffff';
+        for(let a = 0; a < Math.PI; a += 0.3) {
+          let px = cx + Math.cos(a) * 15;
+          let py = (pos.y + 75) + Math.sin(a) * 10;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (tradition === 'muslim') {
+        ctx.fillStyle = '#009432';
+        ctx.beginPath();
+        ctx.roundRect(pos.x - 10, pos.y + 75, pos.w + 20, pos.h - 75, [20, 20, 0, 0]);
+        ctx.fill();
+        ctx.fillStyle = '#f1c40f';
+        ctx.fillRect(pos.x - 10, pos.y + pos.h - 30, pos.w + 20, 30);
+        ctx.beginPath();
+        ctx.arc(cx, pos.y + 75, 20, 0, Math.PI);
+        ctx.fill();
+      }
+
+      renderFace(faceImg, pos, "Bride");
+      ctx.restore();
+    }
+
+    function renderFace(faceImg, pos, label) {
+      const faceX = pos.x + pos.w / 2;
+      const faceY = pos.y + 38;
+      const faceRadius = 32;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(faceX, faceY, faceRadius, 0, Math.PI * 2);
+      ctx.clip();
+
+      if (faceImg) {
+        ctx.drawImage(faceImg, faceX - faceRadius, faceY - faceRadius, faceRadius * 2, faceRadius * 2);
+      } else {
+        ctx.fillStyle = '#bdc3c7';
+        ctx.fillRect(faceX - faceRadius, faceY - faceRadius, faceRadius * 2, faceRadius * 2);
+        ctx.fillStyle = '#333';
+        ctx.font = '10px Arial';
+        ctx.fillText(label, faceX - 14, faceY);
+      }
+      ctx.restore();
+    }
+
+    function startThalikettAnimation() {
+      if (isAnimating) return;
+      isAnimating = true;
+      animProgress = 0;
+      popperParticles = [];
+
+      for (let i = 0; i < 80; i++) {
+        const side = i % 2 === 0 ? 50 : 750;
+        popperParticles.push({
+          x: side,
+          y: 480,
+          vx: (side === 50 ? Math.random() * 9 + 4 : -(Math.random() * 9 + 4)),
+          vy: Math.random() * -14 - 4,
+          color: ['#ffdd59', '#ff4757', '#ffffff', '#2ed573', '#e056fd', '#f9ca24'][Math.floor(Math.random() * 6)],
+          size: Math.random() * 7 + 3,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 15,
+          alpha: 1
+        });
+      }
+
+      function frame() {
+        animProgress += 0.02;
+        if (animProgress > 1) animProgress = 1;
+
+        renderStage();
+
+        if (animProgress < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          screenShakeTimer = 25;
+          setTimeout(() => {
+            isAnimating = false;
+            renderStage();
+          }, 900);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function updateAndDrawAnimation() {
+      const shoulderX = groomPos.x + groomPos.w - 15;
+      const shoulderY = groomPos.y + 110;
+      
+      const targetNeckX = bridePos.x + bridePos.w / 2;
+      const targetNeckY = bridePos.y + 75;
+
+      const easeOut = 1 - Math.pow(1 - animProgress, 3);
+      const currentHandX = shoulderX + (targetNeckX - shoulderX) * easeOut;
+      const currentHandY = shoulderY + (targetNeckY - shoulderY) * easeOut;
+
+      ctx.save();
+      
+      const tradition = religionSelect.value;
+      ctx.strokeStyle = tradition === 'christian' ? '#1e272e' : (tradition === 'muslim' ? '#006266' : '#f5cd79');
+      ctx.lineWidth = 14;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(shoulderX, shoulderY);
+      ctx.lineTo(currentHandX, currentHandY);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ff7979';
+      ctx.beginPath();
+      ctx.arc(currentHandX, currentHandY, 11, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffdd59';
+      ctx.shadowColor = '#ffdd59';
+      ctx.shadowBlur = 15;
+      
+      ctx.strokeStyle = '#ffdd59';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(currentHandX, currentHandY + 6, 8, 0, Math.PI);
+      ctx.stroke();
+
+      ctx.fillRect(currentHandX - 7, currentHandY + 2, 14, 14);
+
+      if (animProgress > 0.85) {
+        ctx.beginPath();
+        ctx.arc(targetNeckX, targetNeckY + 5, 22, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      popperParticles.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 1.5);
+        ctx.restore();
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.35; 
+        p.vx *= 0.98; 
+        p.rotation += p.rotSpeed;
+        p.alpha -= 0.012;
+      });
+    }
+  </script>
+</body>
+</html>
